@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Settings</string>
+    <string name="btn_user_register">Register Account</string>
+    <string name="btn_user_login">Login</string>
+    <string name="btn_room_send_message">Send</string>
+    <string name="title_chat_list">Rooms</string>
+    <string name="title_chat_room">Lobby</string>
+    <string name="title_chat_users">Users</string>
+    <string name="action_add_room">New Room</string>
+    <string name="txt_new_room_header">Create New Room</string>
+    <string name="btn_new_room_cancel">Cancel</string>
+    <string name="btn_new_room_save">Create</string>
+    <string name="chat_rooms_header">Chat Rooms</string>
+</resources>

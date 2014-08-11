@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="ca.legacy.firebasedemo.fragments.UserRegisterFragment">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/edit_username"
+        android:inputType="textShortMessage"
+        android:hint="Username"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/edit_username">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:id="@+id/btn_user_login"
+            android:text="@string/btn_user_login"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:id="@+id/btn_user_register"
+            android:text="@string/btn_user_register"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>
