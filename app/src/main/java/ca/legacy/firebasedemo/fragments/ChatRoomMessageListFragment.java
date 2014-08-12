@@ -9,7 +9,6 @@ import android.widget.ListView;
 import ca.legacy.firebasedemo.AppController;
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.adapters.NewChatRoomMessagesAdapter;
-import ca.legacy.firebasedemo.models.ChatMessage;
 
 /**
  * A fragment representing a list of Items.
@@ -46,7 +45,7 @@ public class ChatRoomMessageListFragment extends ListFragment {
         if (getArguments() != null) {
             room = getArguments().getString("room");
             username = getArguments().getString("username");
-            setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef().child("rooms/" + room + "/messages"), username, getActivity(), R.layout.chat_message));
+            setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef().child("messages/" + room), username, getActivity(), R.layout.chat_message));
         }
     }
 
@@ -71,7 +70,6 @@ public class ChatRoomMessageListFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mListener.stopProgress();
         ListView lv = getListView();
         lv.setStackFromBottom(true);
         lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -88,8 +86,6 @@ public class ChatRoomMessageListFragment extends ListFragment {
     * >Communicating with Other Fragments</a> for more information.
     */
     public interface Callbacks {
-        public void onMessageClick(ChatMessage chatMessage);
-        public void stopProgress();
     }
 
 }

@@ -6,12 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.firebase.client.Firebase;
 
 import ca.legacy.firebasedemo.AppController;
 import ca.legacy.firebasedemo.adapters.NewChatRoomsAdapter;
+import ca.legacy.firebasedemo.models.Room;
 
 /**
  * A fragment representing a list of Items.
@@ -49,8 +47,7 @@ public class ChatRoomFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String username = getActivity().getIntent().getStringExtra("ca.legacy.firebasedemo.USER");
-        Firebase roomRef = AppController.getFirebaseRef().child("rooms");
-        setListAdapter(new NewChatRoomsAdapter(roomRef, getActivity(), android.R.layout.simple_list_item_activated_1));
+        setListAdapter(new NewChatRoomsAdapter(AppController.getFirebaseRef().child("rooms"), getActivity(), android.R.layout.simple_list_item_activated_1, username));
     }
 
     @Override
@@ -84,7 +81,9 @@ public class ChatRoomFragment extends ListFragment {
         super.onListItemClick(listView, view, position, id);
         listView.setSelection(position);
         listView.setItemChecked(position, true);
-        mListener.onRoomSelected(((TextView) view.findViewById(android.R.id.text1)).getText().toString());
+        Room room = (Room) listView.getItemAtPosition(position);
+        mListener.onRoomSelected(room);
+//        mListener.onRoomSelected(((TextView) view.findViewById(android.R.id.text1)).getText().toString());
     }
 
     @Override
@@ -105,6 +104,6 @@ public class ChatRoomFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onRoomSelected(String room);
+        public void onRoomSelected(Room room);
     }
 }

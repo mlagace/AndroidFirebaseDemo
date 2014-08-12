@@ -53,7 +53,7 @@ public class AddRoomDialogFragment extends DialogFragment {
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText room = (EditText) v.findViewById(R.id.edit_new_room);
-                        mListener.onCreate(new Room(room.getText().toString(), username));
+                        mListener.onCreate(new Room(room.getText().toString(), username, false));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

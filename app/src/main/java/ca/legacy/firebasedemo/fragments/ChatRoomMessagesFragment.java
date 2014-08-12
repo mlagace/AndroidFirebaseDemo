@@ -1,9 +1,13 @@
 package ca.legacy.firebasedemo.fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,25 +61,24 @@ public class ChatRoomMessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat_room_messages, container, false);
         final AutoCompleteTextView message = (AutoCompleteTextView) v.findViewById(R.id.txt_room_new_message);
-        message.setAdapter(new UsersAutoCompleteAdapter(getActivity(), android.R.layout.simple_list_item_1));
-        message.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        message.setAdapter(new UsersAutoCompleteAdapter(getActivity(), android.R.layout.simple_list_item_1, room));
+        message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) parent.getItemAtPosition(position);
-                Log.d("SELECTED AUTO", str);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Spannable str = message.getText();
+                str.setSpan(new BackgroundColorSpan(getActivity().getResources().getColor(R.color.blue_light_dark)), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         });
         Button btn = (Button) v.findViewById(R.id.btn_room_send_message);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onSendMessage(new ChatMessage(message.getText().toString(), username, new DateTime().toDateTimeISO().toString()), room);
-                message.setText("");
+                if (message.getText().toString().trim().length() > 0) {
+                    mListener.onSendMessage(new ChatMessage(message.getText().toString(), username, new DateTime().toDateTimeISO().toString()), room);
+                    message.setText("");
+                }
             }
         });
         return v;
@@ -110,6 +113,5 @@ public class ChatRoomMessagesFragment extends Fragment {
      */
     public interface Callbacks {
         public void onSendMessage(ChatMessage chatMessage, String room);
-        public void setupUsersOnAutoComplete(AutoCompleteTextView auto);
     }
 }

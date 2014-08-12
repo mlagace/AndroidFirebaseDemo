@@ -54,77 +54,31 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
         listener = this.ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-//                System.out.println(dataSnapshot.getValue());
-//                System.out.println(dataSnapshot.getValue().getClass().getSimpleName());
-                User model = dataSnapshot.getValue(User.class);
-//                System.out.println(model);
-                modelNames.put(dataSnapshot.getName(), model);
-                models.add(model);
+                User user = new User(dataSnapshot.getName());
+                modelNames.put(dataSnapshot.getName(), user);
+                models.add(user);
                 notifyDataSetChanged();
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-//                // One of the models changed. Replace it in our list and name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//
-//                models.set(index, newModel);
-//                modelNames.put(modelName, newModel);
-//
-//                notifyDataSetChanged();
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-//                // A model was removed from the list. Remove it from our list and the name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                models.remove(oldModel);
-//                modelNames.remove(modelName);
-//                notifyDataSetChanged();
+                // A model was removed from the list. Remove it from our list and the name mapping
+                String modelName = dataSnapshot.getName();
+                User oldModel = modelNames.get(modelName);
+                models.remove(oldModel);
+                modelNames.remove(modelName);
+                notifyDataSetChanged();
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-
-//                // A model changed position in the list. Update our list accordingly
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//                models.remove(index);
-//                if (previousChildName == null) {
-//                    models.add(0, newModel);
-//                } else {
-//                    T previousModel = modelNames.get(previousChildName);
-//                    int previousIndex = models.indexOf(previousModel);
-//                    int nextIndex = previousIndex + 1;
-//                    if (nextIndex == models.size()) {
-//                        models.add(newModel);
-//                    } else {
-//                        models.add(nextIndex, newModel);
-//                    }
-//                }
-//                notifyDataSetChanged();
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {}
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
-    }
-
-    public void cleanup() {
-        // We're being destroyed, let go of our listener and forget about all of the models
-        ref.removeEventListener(listener);
-        models.clear();
-        modelNames.clear();
     }
 
     @Override

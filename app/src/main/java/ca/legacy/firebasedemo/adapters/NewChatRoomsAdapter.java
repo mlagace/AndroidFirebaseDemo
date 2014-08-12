@@ -38,7 +38,7 @@ public class NewChatRoomsAdapter extends BaseAdapter {
      *               instance of the corresponding view with the data from an instance of modelClass.
      * @param activity The activity containing the ListView
      */
-    public NewChatRoomsAdapter(final Firebase ref, Activity activity, int layout) {
+    public NewChatRoomsAdapter(final Firebase ref, Activity activity, int layout, final String loggedUser) {
         this.ref = ref;
         this.layout = layout;
         this.inflater = activity.getLayoutInflater();
@@ -49,77 +49,40 @@ public class NewChatRoomsAdapter extends BaseAdapter {
         listener = this.ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-//                System.out.println(dataSnapshot.getValue());
-//                System.out.println(dataSnapshot.getValue().getClass().getSimpleName());
-                Room model = dataSnapshot.getValue(Room.class);
-//                System.out.println(model);
-                modelNames.put(dataSnapshot.getName(), model);
-                models.add(model);
-                notifyDataSetChanged();
+                if (dataSnapshot.getValue() != null) {
+                    Room model = dataSnapshot.getValue(Room.class);
+                    boolean addRoom = false;
+                    if (model.getIsPrivate() && model.getCreatedBy().equals(loggedUser)) {
+                        addRoom = true;
+                    }
+                    if (model.getIsPrivate() && model.getName().equals(loggedUser)) {
+                        addRoom = true;
+                        model.setOriginalName(model.getName());
+                        model.setName(model.getCreatedBy());
+                    }
+                    if (!model.getIsPrivate()) {
+                        addRoom = true;
+                    }
+                    if (addRoom) {
+                        modelNames.put(dataSnapshot.getName(), model);
+                        models.add(model);
+                        notifyDataSetChanged();
+                    }
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-//                // One of the models changed. Replace it in our list and name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//
-//                models.set(index, newModel);
-//                modelNames.put(modelName, newModel);
-//
-//                notifyDataSetChanged();
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-//                // A model was removed from the list. Remove it from our list and the name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                models.remove(oldModel);
-//                modelNames.remove(modelName);
-//                notifyDataSetChanged();
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-
-//                // A model changed position in the list. Update our list accordingly
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//                models.remove(index);
-//                if (previousChildName == null) {
-//                    models.add(0, newModel);
-//                } else {
-//                    T previousModel = modelNames.get(previousChildName);
-//                    int previousIndex = models.indexOf(previousModel);
-//                    int nextIndex = previousIndex + 1;
-//                    if (nextIndex == models.size()) {
-//                        models.add(newModel);
-//                    } else {
-//                        models.add(nextIndex, newModel);
-//                    }
-//                }
-//                notifyDataSetChanged();
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {}
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
-    }
-
-    public void cleanup() {
-        // We're being destroyed, let go of our listener and forget about all of the models
-        ref.removeEventListener(listener);
-        models.clear();
-        modelNames.clear();
     }
 
     @Override

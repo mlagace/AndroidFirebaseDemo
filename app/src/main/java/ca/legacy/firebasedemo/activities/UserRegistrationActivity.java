@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -31,25 +29,6 @@ public class UserRegistrationActivity extends ActionBarActivity implements UserR
         progress = new ProgressDialog(this);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void registerUser(final String username) {
         progress.setMessage("Registering as " + username);
@@ -59,7 +38,7 @@ public class UserRegistrationActivity extends ActionBarActivity implements UserR
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() == null) {
-                    AppController.getFirebaseRef().child("users").child(username).setValue(new User(username, deviceId, false));
+                    AppController.getFirebaseRef().child("users").child(username).setValue(new User(username, deviceId));
                     AppController.getUserPrefs(getApplicationContext()).edit().putString("username", username).commit();
                     Intent intent = new Intent();
                     intent.putExtra("ca.legacy.firebasedemo.USER", username);
@@ -106,5 +85,11 @@ public class UserRegistrationActivity extends ActionBarActivity implements UserR
                 progress.hide();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        progress.hide();
     }
 }

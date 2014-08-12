@@ -12,7 +12,6 @@ import com.firebase.client.FirebaseError;
 import java.util.ArrayList;
 
 import ca.legacy.firebasedemo.AppController;
-import ca.legacy.firebasedemo.models.User;
 
 /**
  * Created by matthewlagace on 14-08-11.
@@ -20,14 +19,13 @@ import ca.legacy.firebasedemo.models.User;
 public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private ArrayList<String> resultList = new ArrayList<String>();
 
-    public UsersAutoCompleteAdapter(Context context, int resource) {
+    public UsersAutoCompleteAdapter(Context context, int resource, String room) {
         super(context, resource);
-        AppController.getFirebaseRef().child("rooms/Blah/users").addChildEventListener(new ChildEventListener() {
+        AppController.getFirebaseRef().child("members/" + room).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.getValue() != null) {
-                    User user = dataSnapshot.getValue(User.class);
-                    resultList.add("@" + user.getUsername());
+                    resultList.add("@" + dataSnapshot.getName());
                     notifyDataSetChanged();
                 }
             }
@@ -73,9 +71,7 @@ public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Fi
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     String strConstraint = constraint.toString();
-
-                    if (strConstraint.matches("^@[a-zA-Z0-9]*$")) {
-                        // Assign the data to the FilterResults
+                    if (strConstraint.endsWith("@")) {
                         filterResults.values = resultList;
                         filterResults.count = resultList.size();
                     }

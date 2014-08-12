@@ -20,5 +20,6 @@
         android:completionThreshold="1"
         android:layout_marginRight="60dp"
         android:layout_alignParentBottom="true"
+        android:inputType="textMultiLine"
         android:layout_toLeftOf="@id/txt_room_new_message"/>
 </RelativeLayout>

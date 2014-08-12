@@ -8,17 +8,17 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.security.token.TokenGenerator;
+import com.firebase.client.FirebaseError;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * Created by matthewlagace on 14-08-05.
  */
 public class AppController extends Application {
-    private static String firebaseSecret = "XaNXY9EJhOrEQElaP0zrUGgwJHP2QPEckfPmXYlD";
     private static Firebase firebaseRef = new Firebase("https://vivid-fire-8562.firebaseio.com");
     private static AppController ourInstance = new AppController();
     private static String deviceId;
@@ -29,19 +29,6 @@ public class AppController extends Application {
     }
     public static Firebase getFirebaseRef() { return firebaseRef; }
     public static synchronized SharedPreferences getUserPrefs(Context cxt) { return cxt.getSharedPreferences("ca.legacy.firebasedemo.USER", Context.MODE_PRIVATE); }
-
-    public static String generateToken() {
-        JSONObject arbitraryAuthPayload = new JSONObject();
-        try {
-            arbitraryAuthPayload.put("deviceID", Settings.Secure.ANDROID_ID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        TokenGenerator tokenGenerator = new TokenGenerator(firebaseSecret);
-        return tokenGenerator.createToken(arbitraryAuthPayload);
-    };
-
     public static String getDeviceId() { return deviceId; }
 
     @Override

@@ -2,6 +2,11 @@ package ca.legacy.firebasedemo.adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,67 +68,17 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-//                // One of the models changed. Replace it in our list and name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//
-//                models.set(index, newModel);
-//                modelNames.put(modelName, newModel);
-//
-//                notifyDataSetChanged();
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-//                // A model was removed from the list. Remove it from our list and the name mapping
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                models.remove(oldModel);
-//                modelNames.remove(modelName);
-//                notifyDataSetChanged();
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-
-//                // A model changed position in the list. Update our list accordingly
-//                String modelName = dataSnapshot.getName();
-//                T oldModel = modelNames.get(modelName);
-//                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-//                int index = models.indexOf(oldModel);
-//                models.remove(index);
-//                if (previousChildName == null) {
-//                    models.add(0, newModel);
-//                } else {
-//                    T previousModel = modelNames.get(previousChildName);
-//                    int previousIndex = models.indexOf(previousModel);
-//                    int nextIndex = previousIndex + 1;
-//                    if (nextIndex == models.size()) {
-//                        models.add(newModel);
-//                    } else {
-//                        models.add(nextIndex, newModel);
-//                    }
-//                }
-//                notifyDataSetChanged();
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {}
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
-    }
-
-    public void cleanup() {
-        // We're being destroyed, let go of our listener and forget about all of the models
-        ref.removeEventListener(listener);
-        models.clear();
-        modelNames.clear();
     }
 
     @Override
@@ -161,6 +116,18 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
             viewHolder.userInfo.setTextColor(activity.getResources().getColor(R.color.blue_light_dark));
         } else {
             viewHolder.userInfo.setTextColor(Color.DKGRAY);
+        }
+
+        if (chatMessage.getMessage().contains("@" + loggedUser)) {
+            String combined = "@" + loggedUser;
+            int startIdx = chatMessage.getMessage().indexOf(combined);
+            if (startIdx != -1) {
+                Spannable str = new SpannableString(viewHolder.message.getText());
+                str.setSpan(new BackgroundColorSpan(activity.getResources().getColor(R.color.blue_light_dark)), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                viewHolder.message.setText(str);
+            }
         }
 
         view.setTag(viewHolder);

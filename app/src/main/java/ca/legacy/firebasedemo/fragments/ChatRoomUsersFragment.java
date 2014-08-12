@@ -39,7 +39,7 @@ public class ChatRoomUsersFragment extends ListFragment {
         if (getArguments() != null) {
             room = getArguments().getString("room");
             username = getArguments().getString("username");
-            setListAdapter(new NewChatRoomUsersAdapter(AppController.getFirebaseRef().child("rooms/" + room + "/users"), username, getActivity(), android.R.layout.simple_list_item_1));
+            setListAdapter(new NewChatRoomUsersAdapter(AppController.getFirebaseRef().child("members/" + room), username, getActivity(), android.R.layout.simple_list_item_1));
         }
     }
 

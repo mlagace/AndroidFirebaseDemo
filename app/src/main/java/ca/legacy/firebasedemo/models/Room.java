@@ -1,30 +1,18 @@
 package ca.legacy.firebasedemo.models;
 
-import java.util.Map;
-
 /**
  * Created by matthewlagace on 14-08-07.
  */
 public class Room {
     private String name;
-    private int userLimit = 0;
     private String createdBy;
     private boolean isPrivate = false;
-    private String password;
-    private Map<String, User> users;
-    private Map<String, ChatMessage> messages;
+    private String originalName;
 
-    public Room(String name, int userLimit, String createdBy, boolean isPrivate, String password) {
+    public Room(String name, String createdBy, boolean isPrivate) {
         this.name      = name;
-        this.userLimit = userLimit;
         this.createdBy = createdBy;
         this.isPrivate = isPrivate;
-        this.password  = password;
-    }
-
-    public Room(String name, String createdBy) {
-        this.name      = name;
-        this.createdBy = createdBy;
     }
 
     private Room() {
@@ -35,23 +23,19 @@ public class Room {
         return name;
     }
 
-    public int getUserLimit() {
-        return userLimit;
-    }
-
     public String getCreatedBy() {
         return createdBy;
     }
 
-    public boolean getIsPrivate() {
-        return isPrivate;
+    public String getOriginalName() { return originalName; }
+
+    public boolean getIsPrivate() { return isPrivate; }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public void setOriginalName(String name) {
+        this.originalName = name;
     }
-
-    public Map<String, User> getUsers() { return users; }
-
-    public Map<String, ChatMessage> getMessages() { return messages; }
 }
