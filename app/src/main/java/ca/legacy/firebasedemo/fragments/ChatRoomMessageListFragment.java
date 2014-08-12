@@ -19,8 +19,6 @@ import ca.legacy.firebasedemo.adapters.NewChatRoomMessagesAdapter;
  */
 public class ChatRoomMessageListFragment extends ListFragment {
     private Callbacks mListener;
-    private String room;
-    private String username;
 
     public static ChatRoomMessageListFragment newInstance(String room, String username) {
         ChatRoomMessageListFragment fragment = new ChatRoomMessageListFragment();
@@ -43,6 +41,8 @@ public class ChatRoomMessageListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            String room;
+            String username;
             room = getArguments().getString("room");
             username = getArguments().getString("username");
             setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef().child("messages/" + room), username, getActivity(), R.layout.chat_message));

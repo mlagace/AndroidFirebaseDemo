@@ -24,15 +24,12 @@ import ca.legacy.firebasedemo.models.User;
  * Created by matthewlagace on 14-08-11.
  */
 public class NewChatRoomUsersAdapter extends BaseAdapter {
-
-    private Firebase ref;
-    private int layout;
-    private LayoutInflater inflater;
-    private List<User> models;
-    private Map<String, User> modelNames;
-    private ChildEventListener listener;
-    private String loggedUser;
-    private Activity activity;
+    private final int layout;
+    private final LayoutInflater inflater;
+    private final List<User> models;
+    private final Map<String, User> modelNames;
+    private final String loggedUser;
+    private final Activity activity;
 
     /**
      * @param ref The Firebase location to watch for data changes. Can also be a slice of a location, using some
@@ -41,8 +38,7 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
      *               instance of the corresponding view with the data from an instance of modelClass.
      * @param activity The activity containing the ListView
      */
-    public NewChatRoomUsersAdapter(final Firebase ref, String loggedUser, Activity activity, int layout) {
-        this.ref = ref;
+    public NewChatRoomUsersAdapter(final Firebase ref, String loggedUser, Activity activity, final int layout) {
         this.layout = layout;
         this.inflater = activity.getLayoutInflater();
         this.models = new ArrayList<User>();
@@ -51,7 +47,7 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
         this.activity = activity;
 
         // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
-        listener = this.ref.addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 User user = new User(dataSnapshot.getName());

@@ -12,4 +12,5 @@
     <string name="btn_new_room_cancel">Cancel</string>
     <string name="btn_new_room_save">Create</string>
     <string name="chat_rooms_header">Chat Rooms</string>
+    <string name="hint_username">Username</string>
 </resources>

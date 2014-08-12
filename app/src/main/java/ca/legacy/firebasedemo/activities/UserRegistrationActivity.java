@@ -67,7 +67,7 @@ public class UserRegistrationActivity extends ActionBarActivity implements UserR
                 if (dataSnapshot.getValue() == null) {
                     Toast.makeText(getApplicationContext(), "Username not found", Toast.LENGTH_SHORT).show();
                 } else {
-                    Map<String, String> user = (Map<String, String>) dataSnapshot.getValue();
+                    Map<String, String> user = dataSnapshot.getValue(Map.class);
                     if (user.get("deviceId").equals(AppController.getDeviceId())) {
                         Intent intent = new Intent();
                         intent.putExtra("ca.legacy.firebasedemo.USER", username);

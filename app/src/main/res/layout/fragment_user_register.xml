@@ -10,7 +10,7 @@
         android:layout_height="80dp"
         android:id="@+id/edit_username"
         android:inputType="textShortMessage"
-        android:hint="Username"/>
+        android:hint="@string/hint_username"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -32,13 +32,12 @@
             android:layout_height="60dp"
             android:background="@android:drawable/dark_header"
             android:text="@string/chat_rooms_header"
-            android:textSize="24px"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@android:color/white"/>
         <fragment
             android:id="@+id/chat_room_list"
-            android:layout_below="@id/txt_rooms"
             android:name="ca.legacy.firebasedemo.fragments.ChatRoomFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -56,7 +55,7 @@
             android:layout_weight="4"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:id="@+id/msg_list"></FrameLayout>
+            android:id="@+id/msg_list"/>
         <FrameLayout
             android:id="@+id/chat_messages_container"
             android:layout_width="match_parent"

@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:icon="@drawable/ic_launcher"
         android:name=".AppController"
         android:allowBackup="true"
-        android:logo="@android:color/transparent"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.UserRegistrationActivity"

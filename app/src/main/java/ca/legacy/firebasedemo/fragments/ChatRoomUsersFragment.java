@@ -12,8 +12,6 @@ import ca.legacy.firebasedemo.models.User;
 
 
 public class ChatRoomUsersFragment extends ListFragment {
-    private String room;
-    private String username;
     private Callbacks mListener;
 
     public static ChatRoomUsersFragment newInstance(String room, String username) {
@@ -37,6 +35,8 @@ public class ChatRoomUsersFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            String room;
+            String username;
             room = getArguments().getString("room");
             username = getArguments().getString("username");
             setListAdapter(new NewChatRoomUsersAdapter(AppController.getFirebaseRef().child("members/" + room), username, getActivity(), android.R.layout.simple_list_item_1));

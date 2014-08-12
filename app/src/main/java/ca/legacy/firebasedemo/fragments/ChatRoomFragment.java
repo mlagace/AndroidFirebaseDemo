@@ -32,11 +32,6 @@ public class ChatRoomFragment extends ListFragment {
     private Callbacks mListener;
 
     /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-    /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
@@ -84,15 +79,6 @@ public class ChatRoomFragment extends ListFragment {
         Room room = (Room) listView.getItemAtPosition(position);
         mListener.onRoomSelected(room);
 //        mListener.onRoomSelected(((TextView) view.findViewById(android.R.id.text1)).getText().toString());
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
     }
 
     /**

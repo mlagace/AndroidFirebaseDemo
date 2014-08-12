@@ -21,9 +21,7 @@ import com.firebase.client.FirebaseError;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.models.ChatMessage;
@@ -32,14 +30,11 @@ import ca.legacy.firebasedemo.models.ChatMessage;
  * Created by matthewlagace on 14-08-11.
  */
 public class NewChatRoomMessagesAdapter extends BaseAdapter {
-    private Firebase ref;
-    private int layout;
-    private LayoutInflater inflater;
-    private List<ChatMessage> models;
-    private Map<String, ChatMessage> modelNames;
-    private ChildEventListener listener;
-    private String loggedUser;
-    private Activity activity;
+    private final int layout;
+    private final LayoutInflater inflater;
+    private final List<ChatMessage> models;
+    private final String loggedUser;
+    private final Activity activity;
 
     /**
      * @param ref The Firebase location to watch for data changes. Can also be a slice of a location, using some
@@ -49,20 +44,17 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
      * @param activity The activity containing the ListView
      */
     public NewChatRoomMessagesAdapter(final Firebase ref, String loggedUser, Activity activity, int layout) {
-        this.ref = ref;
         this.layout = layout;
         this.inflater = activity.getLayoutInflater();
         this.models = new ArrayList<ChatMessage>();
-        this.modelNames = new HashMap<String, ChatMessage>();
         this.loggedUser = loggedUser;
         this.activity = activity;
 
         // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
-        listener = this.ref.addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 ChatMessage model = dataSnapshot.getValue(ChatMessage.class);
-                modelNames.put(dataSnapshot.getName(), model);
                 models.add(model);
                 notifyDataSetChanged();
             }

@@ -13,9 +13,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ca.legacy.firebasedemo.models.Room;
 
@@ -23,13 +21,9 @@ import ca.legacy.firebasedemo.models.Room;
  * Created by matthewlagace on 14-08-11.
  */
 public class NewChatRoomsAdapter extends BaseAdapter {
-
-    private Firebase ref;
-    private int layout;
-    private LayoutInflater inflater;
-    private List<Room> models;
-    private Map<String, Room> modelNames;
-    private ChildEventListener listener;
+    private final int layout;
+    private final LayoutInflater inflater;
+    private final List<Room> models;
 
     /**
      * @param ref The Firebase location to watch for data changes. Can also be a slice of a location, using some
@@ -39,14 +33,12 @@ public class NewChatRoomsAdapter extends BaseAdapter {
      * @param activity The activity containing the ListView
      */
     public NewChatRoomsAdapter(final Firebase ref, Activity activity, int layout, final String loggedUser) {
-        this.ref = ref;
         this.layout = layout;
         this.inflater = activity.getLayoutInflater();
         this.models = new ArrayList<Room>();
-        this.modelNames = new HashMap<String, Room>();
 
         // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
-        listener = this.ref.addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 if (dataSnapshot.getValue() != null) {
@@ -64,7 +56,6 @@ public class NewChatRoomsAdapter extends BaseAdapter {
                         addRoom = true;
                     }
                     if (addRoom) {
-                        modelNames.put(dataSnapshot.getName(), model);
                         models.add(model);
                         notifyDataSetChanged();
                     }

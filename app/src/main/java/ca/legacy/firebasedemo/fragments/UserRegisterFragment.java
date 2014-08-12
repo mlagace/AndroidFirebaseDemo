@@ -26,21 +26,10 @@ public class UserRegisterFragment extends Fragment {
     private Callbacks mListener;
 
     public static UserRegisterFragment newInstance() {
-        UserRegisterFragment fragment = new UserRegisterFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        fragment.setArguments(args);
-        return fragment;
+        return new UserRegisterFragment();
     }
     public UserRegisterFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//        }
     }
 
     @Override

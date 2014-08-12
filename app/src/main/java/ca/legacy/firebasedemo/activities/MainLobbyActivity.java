@@ -9,9 +9,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ca.legacy.firebasedemo.AppController;
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.fragments.AddRoomDialogFragment;
@@ -66,8 +63,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
             } else {
                 room = selectedRoom.getName();
             }
-            Map<String, Boolean> member = new HashMap<String, Boolean>();
-            member.put(username, true);
+
             AppController.getFirebaseRef().child("members/" + room + "/" + username).setValue(true);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.msg_list, ChatRoomMessageListFragment.newInstance(room, username))

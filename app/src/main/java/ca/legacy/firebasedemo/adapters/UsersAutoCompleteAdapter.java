@@ -17,9 +17,9 @@ import ca.legacy.firebasedemo.AppController;
  * Created by matthewlagace on 14-08-11.
  */
 public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-    private ArrayList<String> resultList = new ArrayList<String>();
+    private final ArrayList<String> resultList = new ArrayList<String>();
 
-    public UsersAutoCompleteAdapter(Context context, int resource, String room) {
+    public UsersAutoCompleteAdapter(Context context, final int resource, String room) {
         super(context, resource);
         AppController.getFirebaseRef().child("members/" + room).addChildEventListener(new ChildEventListener() {
             @Override

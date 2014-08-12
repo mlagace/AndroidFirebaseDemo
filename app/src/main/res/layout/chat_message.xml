@@ -9,7 +9,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:id="@+id/txt_room_username"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="right"
         android:layout_alignParentLeft="true"/>
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_room_msg"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@id/txt_room_username"/>
 </RelativeLayout>
