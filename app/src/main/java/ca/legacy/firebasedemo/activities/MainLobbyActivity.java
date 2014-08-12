@@ -27,9 +27,16 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hide top left icon
         AppController.disableIcon(this);
+
         setContentView(R.layout.activity_main_lobby);
-        username = getIntent().getStringExtra("ca.legacy.firebasedemo.USER");
+
+        // Get username sent from the UserRegisterActivity
+        username = getIntent().getStringExtra(AppController.getUserPrefsLocation());
+
+        // Set title at top
         setTitle("Logged in: " + username);
     }
 
@@ -48,16 +55,21 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_add_room) {
+            // Show a dialog that lets a user create a new room
             AddRoomDialogFragment addRoomDialogFragment = AddRoomDialogFragment.newInstance(username);
             addRoomDialogFragment.show(getSupportFragmentManager(), "new_room");
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // Handle user Room selection when a user selects a Chat Room. Then the Activity
+    // creates 3 Fragments to display chat related data to the selected Chat Room.
     @Override
     public void onRoomSelected(Room selectedRoom) {
         if (selectedRoom != null) {
             String room;
+
+            // OriginalName is used to detect Private Chat Rooms
             if (selectedRoom.getOriginalName() != null) {
                 room = selectedRoom.getOriginalName();
             } else {
@@ -78,6 +90,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         }
     }
 
+    // This sends a Chat Message to the supplied room name
     @Override
     public void onSendMessage(ChatMessage chatMessage, String room) {
         if (chatMessage != null && room != null && room.length() > 0) {
@@ -87,6 +100,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         }
     }
 
+    // This creates a new Chat Room
     @Override
     public void onCreate(Room room) {
         if (room != null) {
@@ -94,6 +108,9 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         }
     }
 
+    // Handle user selection in the list of online users.
+    // When a user is selected this creates a Private Chat Room with the selected user
+    // and the logged in user that selected the user.
     @Override
     public void onUserSelected(String usernameRoom) {
         if (usernameRoom != null) {
@@ -101,6 +118,8 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         }
     }
 
+    // When the application stops or the Activity stops the logged in user gets
+    // logged out and removed from all the Chat Rooms the user was logged in.
     @Override
     protected void onStop() {
         super.onStop();
@@ -138,6 +157,8 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
         });
     }
 
+    // When the application stops or the Activity stops the logged in user gets
+    // logged out and removed from all the Chat Rooms the user was logged in.
     @Override
     protected void onDestroy() {
         super.onDestroy();

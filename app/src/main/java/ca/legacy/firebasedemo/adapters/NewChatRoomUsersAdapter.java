@@ -46,7 +46,7 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
         this.loggedUser = loggedUser;
         this.activity = activity;
 
-        // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
+        // Load all Chat Users for the current Chat Room the user is in
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -97,11 +97,13 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
         View view;
         ViewHolder viewHolder = new ViewHolder();
         User user = (User) getItem(position);
+
         if (convertView == null) {
             view = inflater.inflate(layout, parent, false);
         } else {
             view = convertView;
         }
+
         viewHolder.username = (TextView) view.findViewById(android.R.id.text1);
         viewHolder.position = position;
         viewHolder.username.setText(user.getUsername());
@@ -114,6 +116,7 @@ public class NewChatRoomUsersAdapter extends BaseAdapter {
         return view;
     }
 
+    // User ViewHolder for smooth scrolling lists
     static class ViewHolder {
         TextView username;
         int position;

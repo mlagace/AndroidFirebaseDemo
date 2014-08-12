@@ -19,6 +19,8 @@ import ca.legacy.firebasedemo.AppController;
 public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private final ArrayList<String> resultList = new ArrayList<String>();
 
+    // Loads all the online users in the current Chat Room into an AutoCompleteTextView
+    // when the user starts typing "@"
     public UsersAutoCompleteAdapter(Context context, final int resource, String room) {
         super(context, resource);
         AppController.getFirebaseRef().child("members/" + room).addChildEventListener(new ChildEventListener() {
@@ -62,6 +64,8 @@ public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Fi
         return resultList.size();
     }
 
+    // You need to implement Filterable when using custom data to show in
+    // an AutoCompleteTextView widget
     @Override
     public Filter getFilter() {
         return new Filter() {

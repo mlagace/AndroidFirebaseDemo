@@ -41,7 +41,7 @@ public class ChatRoomFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String username = getActivity().getIntent().getStringExtra("ca.legacy.firebasedemo.USER");
+        String username = getActivity().getIntent().getStringExtra(AppController.getUserPrefsLocation());
         setListAdapter(new NewChatRoomsAdapter(AppController.getFirebaseRef().child("rooms"), getActivity(), android.R.layout.simple_list_item_activated_1, username));
     }
 

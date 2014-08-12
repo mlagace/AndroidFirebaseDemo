@@ -50,7 +50,7 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
         this.loggedUser = loggedUser;
         this.activity = activity;
 
-        // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
+        // Load all Chat Messages for the current Chat Room the user is in
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -93,23 +93,27 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
         View view;
         ViewHolder viewHolder = new ViewHolder();
         ChatMessage chatMessage = (ChatMessage) getItem(position);
+
         if (convertView == null) {
             view = inflater.inflate(layout, parent, false);
         } else {
             view = convertView;
         }
+
         viewHolder.userInfo = (TextView) view.findViewById(R.id.txt_room_username);
         viewHolder.message = (TextView) view.findViewById(R.id.txt_room_msg);
         viewHolder.position = position;
         viewHolder.userInfo.setText(chatMessage.getUser() + " (" + new DateTime(chatMessage.getCreatedAt()).toString("hh:mm") + ")" + ":");
         viewHolder.message.setText(chatMessage.getMessage());
 
+        // Color code the user's own messages
         if (loggedUser.equals(chatMessage.getUser())) {
             viewHolder.userInfo.setTextColor(activity.getResources().getColor(R.color.blue_light_dark));
         } else {
             viewHolder.userInfo.setTextColor(Color.DKGRAY);
         }
 
+        // Color code messages that contain the user
         if (chatMessage.getMessage().contains("@" + loggedUser)) {
             String combined = "@" + loggedUser;
             int startIdx = chatMessage.getMessage().indexOf(combined);
@@ -126,6 +130,8 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
         return view;
     }
 
+
+    // User ViewHolder for smooth scrolling lists
     static class ViewHolder {
         TextView userInfo;
         TextView message;

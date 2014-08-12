@@ -61,16 +61,20 @@ public class ChatRoomMessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat_room_messages, container, false);
         final AutoCompleteTextView message = (AutoCompleteTextView) v.findViewById(R.id.txt_room_new_message);
+
+        // Load online users in Chat Room for the AutoCompleteTextView {@link message}
         message.setAdapter(new UsersAutoCompleteAdapter(getActivity(), android.R.layout.simple_list_item_1, room));
         message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Set the background color and text color for the selected user in the autocomplete list
                 Spannable str = message.getText();
                 str.setSpan(new BackgroundColorSpan(getActivity().getResources().getColor(R.color.blue_light_dark)), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         });
+
         Button btn = (Button) v.findViewById(R.id.btn_room_send_message);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

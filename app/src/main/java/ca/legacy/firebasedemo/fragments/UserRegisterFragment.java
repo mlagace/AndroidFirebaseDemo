@@ -40,6 +40,7 @@ public class UserRegisterFragment extends Fragment {
         final EditText usernameEdit = (EditText) v.findViewById(R.id.edit_username);
         final Button regBtn = (Button) v.findViewById(R.id.btn_user_register);
         final Button loginBtn = (Button) v.findViewById(R.id.btn_user_login);
+
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

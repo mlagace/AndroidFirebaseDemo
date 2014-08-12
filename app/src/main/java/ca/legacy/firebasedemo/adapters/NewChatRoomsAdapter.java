@@ -37,13 +37,14 @@ public class NewChatRoomsAdapter extends BaseAdapter {
         this.inflater = activity.getLayoutInflater();
         this.models = new ArrayList<Room>();
 
-        // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
+        // Get all Chat Rooms the user has access to
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 if (dataSnapshot.getValue() != null) {
                     Room model = dataSnapshot.getValue(Room.class);
                     boolean addRoom = false;
+
                     if (model.getIsPrivate() && model.getCreatedBy().equals(loggedUser)) {
                         addRoom = true;
                     }
@@ -96,6 +97,7 @@ public class NewChatRoomsAdapter extends BaseAdapter {
         View view;
         ViewHolder viewHolder = new ViewHolder();
         Room room = (Room) getItem(position);
+
         if (convertView == null) {
             view = inflater.inflate(layout, parent, false);
         } else {
@@ -104,10 +106,12 @@ public class NewChatRoomsAdapter extends BaseAdapter {
         viewHolder.room = (TextView) view.findViewById(android.R.id.text1);
         viewHolder.position = position;
         viewHolder.room.setText(room.getName());
+
         view.setTag(viewHolder);
         return view;
     }
 
+    // User ViewHolder for smooth scrolling lists
     static class ViewHolder {
         TextView room;
         int position;
