@@ -74,19 +74,24 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
 
             AppController.getFirebaseRef().child("members/" + room + "/" + username).setValue(true);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.msg_list, ChatRoomMessageListFragment.newInstance(room, username))
+                    .replace(R.id.msg_list, ChatRoomMessageListFragment.newInstance(selectedRoom, username))
                     .replace(R.id.chat_users_container, ChatRoomUsersFragment.newInstance(room, username))
                     .replace(R.id.chat_messages_container,
-                            ChatRoomMessagesFragment.newInstance(room, username))
+                            ChatRoomMessagesFragment.newInstance(selectedRoom, username))
                     .commit();
         }
     }
 
     // This sends a Chat Message to the supplied room name
     @Override
-    public void onSendMessage(ChatMessage chatMessage, String room) {
+    public void onSendMessage(ChatMessage chatMessage, String room, boolean isPrivate) {
         if (chatMessage != null && room != null && room.length() > 0) {
-            AppController.getFirebaseRef().child("messages/" + room)
+            String roomPath = "messages/" + room;
+
+            if (isPrivate) {
+                roomPath += "/" + username;
+            }
+            AppController.getFirebaseRef().child(roomPath)
                     .push()
                     .setValue(chatMessage);
         }
@@ -106,7 +111,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
     @Override
     public void onUserSelected(String usernameRoom) {
         if (usernameRoom != null) {
-            AppController.getFirebaseRef().child("rooms/" + usernameRoom)
+            AppController.getFirebaseRef().child("rooms/" + usernameRoom + "/" + username)
                     .setValue(new Room(usernameRoom, username, true));
         }
     }

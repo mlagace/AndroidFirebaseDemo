@@ -9,6 +9,7 @@ import android.widget.ListView;
 import ca.legacy.firebasedemo.AppController;
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.adapters.NewChatRoomMessagesAdapter;
+import ca.legacy.firebasedemo.models.Room;
 
 /**
  * A fragment representing a list of Items.
@@ -20,10 +21,11 @@ import ca.legacy.firebasedemo.adapters.NewChatRoomMessagesAdapter;
 public class ChatRoomMessageListFragment extends ListFragment {
     private Callbacks mListener;
 
-    public static ChatRoomMessageListFragment newInstance(String room, String username) {
+    public static ChatRoomMessageListFragment newInstance(Room room, String username) {
         ChatRoomMessageListFragment fragment = new ChatRoomMessageListFragment();
         Bundle args = new Bundle();
-        args.putString("room", room);
+        args.putString("room", room.getName());
+        args.putBoolean("private", room.getIsPrivate());
         args.putString("username", username);
         fragment.setArguments(args);
         return fragment;
@@ -43,10 +45,17 @@ public class ChatRoomMessageListFragment extends ListFragment {
         if (getArguments() != null) {
             String room;
             String username;
+            Boolean isPrivate;
             room = getArguments().getString("room");
             username = getArguments().getString("username");
+            isPrivate = getArguments().getBoolean("private");
+            String roomPath = "messages/" + room;
+
+            if (isPrivate) {
+                roomPath += "/" + username;
+            }
             setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef()
-                    .child("messages/" + room), username, getActivity(), R.layout.chat_message));
+                    .child(roomPath), username, getActivity(), R.layout.chat_message));
         }
     }
 

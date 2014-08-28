@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.adapters.UsersAutoCompleteAdapter;
 import ca.legacy.firebasedemo.models.ChatMessage;
+import ca.legacy.firebasedemo.models.Room;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,13 +34,15 @@ import ca.legacy.firebasedemo.models.ChatMessage;
 public class ChatRoomMessagesFragment extends Fragment {
     private String room;
     private String username;
+    private boolean isPrivate;
     private Callbacks mListener;
 
-    public static ChatRoomMessagesFragment newInstance(String room, String username) {
+    public static ChatRoomMessagesFragment newInstance(Room room, String username) {
         ChatRoomMessagesFragment fragment = new ChatRoomMessagesFragment();
         Bundle args = new Bundle();
-        args.putString("room", room);
+        args.putString("room", room.getName());
         args.putString("username", username);
+        args.putBoolean("private", room.getIsPrivate());
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +56,7 @@ public class ChatRoomMessagesFragment extends Fragment {
         if (getArguments() != null) {
             room = getArguments().getString("room");
             username = getArguments().getString("username");
+            isPrivate = getArguments().getBoolean("private");
         }
     }
 
@@ -86,7 +90,7 @@ public class ChatRoomMessagesFragment extends Fragment {
             public void onClick(View v) {
                 if (message.getText().toString().trim().length() > 0) {
                     mListener.onSendMessage(new ChatMessage(message.getText().toString(),
-                            username, new DateTime().toDateTimeISO().toString()), room);
+                            username, new DateTime().toDateTimeISO().toString()), room, isPrivate);
                     message.setText("");
                 }
             }
@@ -122,6 +126,6 @@ public class ChatRoomMessagesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface Callbacks {
-        public void onSendMessage(ChatMessage chatMessage, String room);
+        public void onSendMessage(ChatMessage chatMessage, String room, boolean isPrivate);
     }
 }

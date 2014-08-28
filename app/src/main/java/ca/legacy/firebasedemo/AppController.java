@@ -18,7 +18,8 @@ import com.firebase.client.FirebaseError;
  * Created by matthewlagace on 14-08-05.
  */
 public class AppController extends Application {
-    private static final Firebase firebaseRef = new Firebase("https://vivid-fire-8562.firebaseio.com");
+    private static final String firebaseURL = "<YOUR FIREBASE URL e.g. https://vivid-fire-####.firebaseio.com/>";
+    private static final Firebase firebaseRef = new Firebase(firebaseURL);
     private static final AppController ourInstance = new AppController();
     private static String deviceId;
     private static final int buildSDK = Build.VERSION.SDK_INT;
