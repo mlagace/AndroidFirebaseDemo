@@ -5,10 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-
 import ca.legacy.firebasedemo.AppController;
 import ca.legacy.firebasedemo.R;
 import ca.legacy.firebasedemo.fragments.AddRoomDialogFragment;
@@ -79,11 +75,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
             AppController.getFirebaseRef().child("members/" + room + "/" + username).setValue(true);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.msg_list, ChatRoomMessageListFragment.newInstance(room, username))
-                    .commit();
-            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.chat_users_container, ChatRoomUsersFragment.newInstance(room, username))
-                    .commit();
-            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.chat_messages_container,
                             ChatRoomMessagesFragment.newInstance(room, username))
                     .commit();
@@ -114,7 +106,8 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
     @Override
     public void onUserSelected(String usernameRoom) {
         if (usernameRoom != null) {
-            AppController.getFirebaseRef().child("rooms/" + usernameRoom).setValue(new Room(usernameRoom, username, true));
+            AppController.getFirebaseRef().child("rooms/" + usernameRoom)
+                    .setValue(new Room(usernameRoom, username, true));
         }
     }
 
@@ -123,38 +116,7 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
     @Override
     protected void onStop() {
         super.onStop();
-        AppController.getFirebaseRef().child("members").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null && dataSnapshot.hasChildren()) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        if (child.getName().equals(username)) {
-                            AppController.getFirebaseRef().child("members/" + dataSnapshot.getName() + "/" + username).removeValue();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        AppController.logOutUser(username);
     }
 
     // When the application stops or the Activity stops the logged in user gets
@@ -162,37 +124,6 @@ public class MainLobbyActivity extends ActionBarActivity implements ChatRoomFrag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppController.getFirebaseRef().child("members").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null && dataSnapshot.hasChildren()) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        if (child.getName().equals(username)) {
-                            AppController.getFirebaseRef().child("members/" + dataSnapshot.getName() + "/" + username).removeValue();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        AppController.logOutUser(username);
     }
 }

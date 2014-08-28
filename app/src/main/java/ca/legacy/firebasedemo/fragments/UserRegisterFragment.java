@@ -49,7 +49,8 @@ public class UserRegisterFragment extends Fragment {
                     if (username.length() > 0) {
                         mListener.registerUser(username);
                     } else {
-                        Toast.makeText(getActivity().getApplicationContext(), "Username invalid", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "Username invalid",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -62,7 +63,8 @@ public class UserRegisterFragment extends Fragment {
                     if (username.length() > 0) {
                         mListener.loginUser(username);
                     } else {
-                        Toast.makeText(getActivity().getApplicationContext(), "Username invalid", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "Username invalid",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -77,7 +79,7 @@ public class UserRegisterFragment extends Fragment {
             mListener = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement UserRegisterFragment.Callbacks");
         }
     }
 

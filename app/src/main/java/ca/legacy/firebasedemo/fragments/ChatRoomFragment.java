@@ -42,7 +42,8 @@ public class ChatRoomFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String username = getActivity().getIntent().getStringExtra(AppController.getUserPrefsLocation());
-        setListAdapter(new NewChatRoomsAdapter(AppController.getFirebaseRef().child("rooms"), getActivity(), android.R.layout.simple_list_item_activated_1, username));
+        setListAdapter(new NewChatRoomsAdapter(AppController.getFirebaseRef().child("rooms"),
+                getActivity(), android.R.layout.simple_list_item_activated_1, username));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ChatRoomFragment extends ListFragment {
 
         // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+            throw new IllegalStateException("Activity must implement ChatRoomFragment.Callbacks.");
         }
 
         mListener = (Callbacks) activity;
@@ -78,7 +79,6 @@ public class ChatRoomFragment extends ListFragment {
         listView.setItemChecked(position, true);
         Room room = (Room) listView.getItemAtPosition(position);
         mListener.onRoomSelected(room);
-//        mListener.onRoomSelected(((TextView) view.findViewById(android.R.id.text1)).getText().toString());
     }
 
     /**

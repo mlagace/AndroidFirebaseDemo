@@ -72,7 +72,7 @@ public class AddRoomDialogFragment extends DialogFragment {
             mListener = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement Callbacks");
+                    + " must implement AddRoomDialogFragment.Callbacks");
         }
     }
 

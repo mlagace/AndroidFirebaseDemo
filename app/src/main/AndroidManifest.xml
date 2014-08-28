@@ -8,7 +8,8 @@
         android:icon="@drawable/ic_launcher"
         android:name=".AppController"
         android:allowBackup="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:label="FirebaseDemo">
         <activity
             android:name=".activities.UserRegistrationActivity"
             android:launchMode="singleInstance"

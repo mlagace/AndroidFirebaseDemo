@@ -23,7 +23,8 @@ public class UsersAutoCompleteAdapter extends ArrayAdapter<String> implements Fi
     // when the user starts typing "@"
     public UsersAutoCompleteAdapter(Context context, final int resource, String room) {
         super(context, resource);
-        AppController.getFirebaseRef().child("members/" + room).addChildEventListener(new ChildEventListener() {
+        AppController.getFirebaseRef().child("members/" + room)
+                .addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.getValue() != null) {

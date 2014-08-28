@@ -103,12 +103,14 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
         viewHolder.userInfo = (TextView) view.findViewById(R.id.txt_room_username);
         viewHolder.message = (TextView) view.findViewById(R.id.txt_room_msg);
         viewHolder.position = position;
-        viewHolder.userInfo.setText(chatMessage.getUser() + " (" + new DateTime(chatMessage.getCreatedAt()).toString("hh:mm") + ")" + ":");
+        viewHolder.userInfo.setText(chatMessage.getUser() + " (" +
+                new DateTime(chatMessage.getCreatedAt()).toString("hh:mm") + ")" + ":");
         viewHolder.message.setText(chatMessage.getMessage());
 
         // Color code the user's own messages
         if (loggedUser.equals(chatMessage.getUser())) {
-            viewHolder.userInfo.setTextColor(activity.getResources().getColor(R.color.blue_light_dark));
+            viewHolder.userInfo.setTextColor(activity.getResources().
+                    getColor(R.color.blue_light_dark));
         } else {
             viewHolder.userInfo.setTextColor(Color.DKGRAY);
         }
@@ -119,9 +121,13 @@ public class NewChatRoomMessagesAdapter extends BaseAdapter {
             int startIdx = chatMessage.getMessage().indexOf(combined);
             if (startIdx != -1) {
                 Spannable str = new SpannableString(viewHolder.message.getText());
-                str.setSpan(new BackgroundColorSpan(activity.getResources().getColor(R.color.blue_light_dark)), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, combined.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new BackgroundColorSpan(activity.getResources()
+                        .getColor(R.color.blue_light_dark)), 0, combined.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, combined.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, combined.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 viewHolder.message.setText(str);
             }
         }

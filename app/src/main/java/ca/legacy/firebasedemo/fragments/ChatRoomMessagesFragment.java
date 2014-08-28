@@ -63,15 +63,20 @@ public class ChatRoomMessagesFragment extends Fragment {
         final AutoCompleteTextView message = (AutoCompleteTextView) v.findViewById(R.id.txt_room_new_message);
 
         // Load online users in Chat Room for the AutoCompleteTextView {@link message}
-        message.setAdapter(new UsersAutoCompleteAdapter(getActivity(), android.R.layout.simple_list_item_1, room));
+        message.setAdapter(new UsersAutoCompleteAdapter(getActivity(),
+                android.R.layout.simple_list_item_1, room));
         message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Set the background color and text color for the selected user in the autocomplete list
                 Spannable str = message.getText();
-                str.setSpan(new BackgroundColorSpan(getActivity().getResources().getColor(R.color.blue_light_dark)), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new BackgroundColorSpan(getActivity().getResources()
+                        .getColor(R.color.blue_light_dark)), 0, str.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, str.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         });
 
@@ -80,7 +85,8 @@ public class ChatRoomMessagesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (message.getText().toString().trim().length() > 0) {
-                    mListener.onSendMessage(new ChatMessage(message.getText().toString(), username, new DateTime().toDateTimeISO().toString()), room);
+                    mListener.onSendMessage(new ChatMessage(message.getText().toString(),
+                            username, new DateTime().toDateTimeISO().toString()), room);
                     message.setText("");
                 }
             }
@@ -95,7 +101,7 @@ public class ChatRoomMessagesFragment extends Fragment {
             mListener = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ChatRoomMessagesFragment.Callbacks");
         }
     }
 

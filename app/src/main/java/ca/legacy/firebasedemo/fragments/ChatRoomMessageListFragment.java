@@ -45,7 +45,8 @@ public class ChatRoomMessageListFragment extends ListFragment {
             String username;
             room = getArguments().getString("room");
             username = getArguments().getString("username");
-            setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef().child("messages/" + room), username, getActivity(), R.layout.chat_message));
+            setListAdapter(new NewChatRoomMessagesAdapter(AppController.getFirebaseRef()
+                    .child("messages/" + room), username, getActivity(), R.layout.chat_message));
         }
     }
 
@@ -57,7 +58,7 @@ public class ChatRoomMessageListFragment extends ListFragment {
             mListener = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement Callbacks");
+                + " must implement ChatRoomMessageListFragment.Callbacks");
         }
     }
 

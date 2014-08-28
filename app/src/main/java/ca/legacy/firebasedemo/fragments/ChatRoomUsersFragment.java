@@ -39,7 +39,9 @@ public class ChatRoomUsersFragment extends ListFragment {
             String username;
             room = getArguments().getString("room");
             username = getArguments().getString("username");
-            setListAdapter(new NewChatRoomUsersAdapter(AppController.getFirebaseRef().child("members/" + room), username, getActivity(), android.R.layout.simple_list_item_1));
+            setListAdapter(new NewChatRoomUsersAdapter(AppController.getFirebaseRef()
+                    .child("members/" + room), username, getActivity(),
+                    android.R.layout.simple_list_item_1));
         }
     }
 
@@ -50,7 +52,7 @@ public class ChatRoomUsersFragment extends ListFragment {
             mListener = (Callbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement Callbacks");
+                + " must implement ChatRoomUsersFragment.Callbacks");
         }
     }
 
@@ -69,7 +71,6 @@ public class ChatRoomUsersFragment extends ListFragment {
             // fragment is attached to one) that an item has been selected.
             User user = (User) l.getItemAtPosition(position);
             mListener.onUserSelected(user.getUsername());
-//            mListener.onUserSelected(((TextView) v.findViewById(android.R.id.text1)).getText().toString());
         }
     }
 

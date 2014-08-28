@@ -9,7 +9,10 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 /**
  * Created by matthewlagace on 14-08-05.
@@ -47,5 +50,40 @@ public class AppController extends Application {
 
     public static String getUserPrefsLocation() {
         return PREFS_LOCATION;
+    }
+
+    public static void logOutUser(final String username) {
+        getFirebaseRef().child("members").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null && dataSnapshot.hasChildren()) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        if (child.getName().equals(username)) {
+                            getFirebaseRef().child("members/" + dataSnapshot.getName() + "/" + username).removeValue();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }
